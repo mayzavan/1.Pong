@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://8qjdm58ivo4x"]
+
+[ext_resource type="Script" path="res://scripts/paddle.gd" id="1_uvqlk"]
+[ext_resource type="Texture2D" uid="uid://4tv5hik3t3jm" path="res://art/Paddle2.png" id="2_eai4o"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_o4enc"]
+bounce = 0.3
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n1hrg"]
+radius = 21.0
+height = 106.0
+
+[node name="Paddle" type="RigidBody2D"]
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_o4enc")
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+continuous_cd = 2
+script = ExtResource("1_uvqlk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_eai4o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_n1hrg")

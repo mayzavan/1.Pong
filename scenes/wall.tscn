@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0e78de54j1bl"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_smq1e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3yubf"]
+
+[node name="wall" type="RigidBody2D"]
+mass = 10000.0
+physics_material_override = SubResource("PhysicsMaterial_smq1e")
+gravity_scale = 0.0
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3yubf")
+debug_color = Color(1, 0, 0, 0.419608)

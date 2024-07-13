@@ -1,0 +1,153 @@
+[gd_scene load_steps=13 format=3 uid="uid://tht0osua65a6"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_3kv2n"]
+[ext_resource type="PackedScene" uid="uid://c6cafmbjqmxmm" path="res://scenes/ball.tscn" id="1_7yd5u"]
+[ext_resource type="PackedScene" uid="uid://b0e78de54j1bl" path="res://scenes/wall.tscn" id="1_f1jmn"]
+[ext_resource type="PackedScene" uid="uid://8qjdm58ivo4x" path="res://scenes/paddle.tscn" id="1_qxves"]
+[ext_resource type="FontFile" uid="uid://cwo2tc2qtq41u" path="res://karmatic-arcade/ka1.ttf" id="2_uijnl"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="3_ktqrm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wt6v3"]
+bg_color = Color(0.099986, 0.099986, 0.099986, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_2m6kt"]
+color = Color(1, 1, 1, 1)
+thickness = 10
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_q3ufs"]
+color = Color(1, 1, 1, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cix5a"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.780392)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1laif"]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbblb"]
+size = Vector2(1280, 120)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_3kv2n")
+
+[node name="BackGround" type="Node" parent="."]
+
+[node name="Background2" type="Panel" parent="BackGround"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wt6v3")
+
+[node name="Wall2" type="Panel" parent="BackGround"]
+offset_left = 1144.0
+offset_top = 648.0
+offset_right = 1792.0
+offset_bottom = 729.0
+rotation = 4.71239
+theme_override_styles/panel = SubResource("StyleBoxLine_2m6kt")
+
+[node name="Wall" type="Panel" parent="BackGround"]
+offset_left = 8.0
+offset_right = 656.0
+offset_bottom = 81.0
+rotation = 1.5708
+theme_override_styles/panel = SubResource("StyleBoxLine_2m6kt")
+
+[node name="MidLine" type="Panel" parent="BackGround"]
+offset_top = 324.0
+offset_right = 1176.0
+offset_bottom = 364.0
+theme_override_styles/panel = SubResource("StyleBoxLine_q3ufs")
+
+[node name="ScoreHUD" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="BackGround" type="Panel" parent="ScoreHUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cix5a")
+
+[node name="EnemyScore" type="Label" parent="ScoreHUD"]
+offset_left = 532.0
+offset_top = 40.0
+offset_right = 620.0
+offset_bottom = 153.0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_uijnl")
+theme_override_font_sizes/font_size = 100
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerScore" type="Label" parent="ScoreHUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -153.0
+offset_right = 44.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_uijnl")
+theme_override_font_sizes/font_size = 100
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ball" parent="." instance=ExtResource("1_7yd5u")]
+position = Vector2(8, 0)
+rotation = 1.5708
+
+[node name="wall" parent="." instance=ExtResource("1_f1jmn")]
+position = Vector2(-92, 320)
+scale = Vector2(10, 35.875)
+mass = 1000.0
+physics_material_override = SubResource("PhysicsMaterial_1laif")
+lock_rotation = true
+freeze_mode = 1
+continuous_cd = 2
+
+[node name="wall2" parent="." instance=ExtResource("1_f1jmn")]
+position = Vector2(1244, 320)
+scale = Vector2(10, 35.875)
+mass = 1000.0
+
+[node name="PlayerPaddle" parent="." instance=ExtResource("1_qxves")]
+top_level = true
+position = Vector2(576, 605)
+script = ExtResource("3_ktqrm")
+
+[node name="Paddle" parent="." instance=ExtResource("1_qxves")]
+position = Vector2(576, 43)
+
+[node name="EnemyGoal" type="Area2D" parent="."]
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyGoal"]
+position = Vector2(576, -104)
+shape = SubResource("RectangleShape2D_mbblb")
+
+[node name="PlayerGoal" type="Area2D" parent="."]
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerGoal"]
+position = Vector2(576, 744)
+shape = SubResource("RectangleShape2D_mbblb")
+
+[connection signal="area_entered" from="EnemyGoal" to="." method="_on_enemy_goal_area_entered"]
+[connection signal="body_entered" from="EnemyGoal" to="." method="_on_enemy_goal_body_entered"]
+[connection signal="area_entered" from="PlayerGoal" to="." method="_on_player_goal_area_entered"]
+[connection signal="body_entered" from="PlayerGoal" to="." method="_on_player_goal_body_entered"]
