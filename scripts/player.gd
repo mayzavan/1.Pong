@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var acceleration = 100000
+var acceleration = 1000
 var set0 = false
 var stopped
 
@@ -11,9 +11,9 @@ func _ready():
 func _physics_process(delta):
 	self.position.y = 605
 	if Input.is_action_pressed("Left") and self.position.x >= 60 and self.position.x <= 1092 and stopped == false:
-		self.linear_velocity.x -= acceleration/2 * delta * delta
+		self.linear_velocity.x -= acceleration/2 * delta
 	if Input.is_action_pressed("Right") and self.position.x <= 1092 and self.position.x >= 60 and stopped == false:
-		self.linear_velocity.x += acceleration/2 * delta * delta
+		self.linear_velocity.x += acceleration/2 * delta
 
 func reset():
 	set0 = true
